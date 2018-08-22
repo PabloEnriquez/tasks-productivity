@@ -1,0 +1,9 @@
+<mat-accordion *ngIf="tasks.length > 0">
+  <mat-expansion-panel *ngFor="let task of tasks">
+    <mat-expansion-panel-header>
+      {{ task.title }}
+    </mat-expansion-panel-header>
+    {{ task.content }}
+  </mat-expansion-panel>
+</mat-accordion>
+<p class="info-text mat-body-1" *ngIf="tasks.length <= 0">No hay tareas agregadas</p>
