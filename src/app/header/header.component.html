@@ -1,1 +1,11 @@
-<mat-toolbar color="primary">MisTareas</mat-toolbar>
+<mat-toolbar color="primary">
+  <span>
+    <a routerLink="/">MisTareas</a>
+  </span>
+  <span class="spacer"></span>
+  <ul>
+    <li>
+      <a mat-button routerLink="/create" routerLinkActive="mat-accent">Nueva Tarea</a>
+    </li>
+  </ul>
+</mat-toolbar>
