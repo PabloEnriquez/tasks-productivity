@@ -1,11 +1,11 @@
 <mat-card>
   <form (submit)="onAddTask(taskForm)" #taskForm="ngForm">
     <mat-form-field>
-        <input matInput type="text" name="title" ngModel required #title="ngModel">
+        <input matInput type="text" name="title" ngModel required placeholder="Titulo de tarea" #title="ngModel">
         <mat-error *ngIf="title.invalid">Por favor ingrese titulo de tarea</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <textarea matInput rows="4" name="content" ngModel required #content="ngModel"></textarea>
+        <textarea matInput rows="4" name="content" ngModel required placeholder="Contenido" #content="ngModel"></textarea>
         <mat-error *ngIf="content.invalid">Por favor ingrese descripcion de tarea</mat-error>
       </mat-form-field>
       <button mat-raised-button color="primary" type="submit">Agregar tarea</button>

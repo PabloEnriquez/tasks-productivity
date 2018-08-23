@@ -4,6 +4,10 @@
       {{ task.title }}
     </mat-expansion-panel-header>
     {{ task.content }}
+    <mat-action-row>
+      <button mat-button color="primary">EDITAR</button>
+      <button mat-button color="warn" (click)="onDelete(task.id)">ELIMINAR</button>
+    </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
 <p class="info-text mat-body-1" *ngIf="tasks.length <= 0">No hay tareas agregadas</p>

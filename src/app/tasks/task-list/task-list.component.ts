@@ -16,11 +16,15 @@ export class TaskListComponent implements OnInit, OnDestroy {
   constructor(public tasksService: TasksService) {}
 
   ngOnInit() {
-    this.tasks = this.tasksService.getTasks();
+    this.tasksService.getTasks();
     this.tasksSub = this.tasksService.getTaskUpdateListener()
     .subscribe((tasks: Task[]) => {
       this.tasks = tasks;
     });
+  }
+
+  onDelete(taskId: string) {
+    this.tasksService.deleteTask(taskId);
   }
 
   ngOnDestroy() {

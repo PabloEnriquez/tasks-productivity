@@ -20,5 +20,6 @@ export class TaskCreateComponent {
       return;
     }
     this.tasksService.addTask(form.value.title, form.value.content);
+    form.resetForm();
   }
 }
