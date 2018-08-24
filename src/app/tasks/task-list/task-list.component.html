@@ -1,4 +1,6 @@
-<mat-accordion *ngIf="tasks.length > 0">
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-accordion *ngIf="tasks.length > 0 && !isLoading">
   <mat-expansion-panel *ngFor="let task of tasks">
     <mat-expansion-panel-header>
       {{ task.title }}
@@ -10,4 +12,6 @@
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
-<p class="info-text mat-body-1" *ngIf="tasks.length <= 0">No hay tareas agregadas</p>
+<mat-paginator [length]="totalTasks" [pageSize]="tasksPerPage" [pageSizeOptions]="pageSizeOptions"
+ (page)="onChangedPage($event)" *ngIf="tasks.length > 0"></mat-paginator>
+<p class="info-text mat-body-1" *ngIf="tasks.length <= 0 && !isLoading">No hay tareas agregadas</p>

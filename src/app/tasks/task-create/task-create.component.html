@@ -1,5 +1,6 @@
 <mat-card>
-  <form (submit)="onSaveTask(taskForm)" #taskForm="ngForm">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onSaveTask(taskForm)" #taskForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
         <input matInput type="text" name="title" [ngModel]="task?.title" required placeholder="Titulo de tarea" #title="ngModel">
         <mat-error *ngIf="title.invalid">Por favor ingrese titulo de tarea</mat-error>

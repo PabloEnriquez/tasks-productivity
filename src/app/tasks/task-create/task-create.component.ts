@@ -17,6 +17,7 @@ export class TaskCreateComponent implements OnInit {
   private mode = 'create';
   private taskId: string;
   task: Task;
+  isLoading = false;
 
   constructor(public tasksService: TasksService, public route: ActivatedRoute) {}
 
@@ -25,8 +26,10 @@ export class TaskCreateComponent implements OnInit {
       if (paramMap.has('taskId')) {
         this.mode = 'edit';
         this.taskId = paramMap.get('taskId');
+        this.isLoading = true;
         this.tasksService.getTask(this.taskId).subscribe(taskData => {
-        this.task = {id: taskData._id, title: taskData.title, content: taskData.content};
+          this.isLoading = false;
+          this.task = {id: taskData._id, title: taskData.title, content: taskData.content};
         });
       } else {
         this.mode = 'create';
@@ -39,6 +42,7 @@ export class TaskCreateComponent implements OnInit {
     if (form.invalid) {
       return;
     }
+    this.isLoading = true;
     if (this.mode === 'create') {
       this.tasksService.addTask(form.value.title, form.value.content);
     } else {

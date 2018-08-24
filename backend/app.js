@@ -50,13 +50,26 @@ app.put("/api/tasks/:id", (req, res, next) => {
 });
 
 app.get("/api/tasks", (req, res, next) => {
-  Task.find()
-    .then(documents => {
-      res.status(200).json({
-        message: 'Task fetched successfully',
-        tasks: documents
-      });
+  const pageSize = +req.query.pagesize;
+  const currentPage = +req.query.page;
+  const taskQuery = Task.find();
+  let fetchedTasks;
+
+  if (pageSize && currentPage) {
+    taskQuery
+      .skip(pageSize * (currentPage - 1))
+      .limit(pageSize);
+  }
+  taskQuery.then(documents => {
+    fetchedTasks = documents;
+    return Task.count();
+  }).then(count => {
+    res.status(200).json({
+      message: 'Tasks fetched successfully',
+      tasks: fetchedTasks,
+      maxTasks: count
     });
+  });
 });
 
 app.get("/api/tasks/:id", (req, res, next) => {

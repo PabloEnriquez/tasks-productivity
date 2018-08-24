@@ -7,7 +7,9 @@ import {
   MatCardModule,
   MatButtonModule,
   MatToolbarModule,
-  MatExpansionModule} from '@angular/material';
+  MatExpansionModule,
+  MatProgressSpinnerModule,
+  MatPaginatorModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { TaskCreateComponent } from './tasks/task-create/task-create.component';
@@ -33,6 +35,8 @@ import { AppRoutingModule } from './app-routing.module';
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
     HttpClientModule
   ],
   providers: [],

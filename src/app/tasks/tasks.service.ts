@@ -3,28 +3,33 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({providedIn: 'root'})
 export class TasksService {
   private tasks: Task[] = [];
-  private tasksUpdated = new Subject<Task[]>();
+  private tasksUpdated = new Subject<{ tasks: Task[], taskCount: number }>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
-  getTasks() {
-    this.http.get<{message: string, tasks: any}>('http://localhost:3000/api/tasks')
-    .pipe(map((taskData) => {
-      return taskData.tasks.map(task => {
-        return {
-          title: task.title,
-          content: task.content,
-          id: task._id
-        };
-      });
+  getTasks(tasksPerPage: number, currentPage: number) {
+    const queryParams = `?pagesize=${tasksPerPage}&page=${currentPage}`;
+    this.http.get<{ message: string, tasks: any, maxTasks: number }>('http://localhost:3000/api/tasks' + queryParams)
+    .pipe(map(taskData => {
+      return {
+        tasks: taskData.tasks.map(task => {
+          return {
+            title: task.title,
+            content: task.content,
+            id: task._id
+          };
+        }),
+        maxTasks: taskData.maxTasks
+      };
     }))
-    .subscribe((transformedTasks) => {
-      this.tasks = transformedTasks;
-      this.tasksUpdated.next([...this.tasks]);
+    .subscribe((transformedTaskData) => {
+      this.tasks = transformedTaskData.tasks;
+      this.tasksUpdated.next({ tasks: [...this.tasks], taskCount: transformedTaskData.maxTasks});
     });
   }
 
@@ -40,10 +45,8 @@ export class TasksService {
     const task: Task = {id: null, title: title, content: content};
     this.http.post<{message: string, taskId: string}>('http://localhost:3000/api/tasks', task)
     .subscribe((responseData) => {
-      const idResponse = responseData.taskId;
-      task.id = idResponse;
-      this.tasks.push(task);
-      this.tasksUpdated.next([...this.tasks]);
+
+      this.router.navigate(["/"]);
     });
   }
 
@@ -51,21 +54,13 @@ export class TasksService {
     const task: Task = { id: id, title: title, content: content };
     this.http.put('http://localhost:3000/api/tasks/' + id, task)
     .subscribe(response => {
-      const updatedTasks = [...this.tasks];
-      const oldTaskIndex = updatedTasks.findIndex(p => p.id === task.id);
-      updatedTasks[oldTaskIndex] = task;
-      this.tasks = updatedTasks;
-      this.tasksUpdated.next([...this.tasks]);
+
+      this.router.navigate(["/"]);
     });
   }
 
   deleteTask(taskId: string) {
-    this.http.delete('http://localhost:3000/api/tasks/' + taskId)
-    .subscribe(() => {
-      const updatedTasks = this.tasks.filter(task => task.id !== taskId);
-      this.tasks = updatedTasks;
-      this.tasksUpdated.next([...this.tasks]);
-    });
+    return this.http.delete('http://localhost:3000/api/tasks/' + taskId);
   }
 
 }
