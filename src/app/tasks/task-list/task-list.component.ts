@@ -43,6 +43,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.tasksService.deleteTask(taskId).subscribe(() => {
       this.tasksService.getTasks(this.tasksPerPage, this.currentPage);
+    }, () => {
+      this.isLoading = false;
     });
   }
 

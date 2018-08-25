@@ -1,3 +1,4 @@
+import { ErrorInterceptor } from './error-interceptor';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -9,21 +10,24 @@ import {
   MatToolbarModule,
   MatExpansionModule,
   MatProgressSpinnerModule,
-  MatPaginatorModule} from '@angular/material';
+  MatPaginatorModule,
+  MatDialogModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { TaskCreateComponent } from './tasks/task-create/task-create.component';
 import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { HeaderComponent } from './header/header.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TaskCreateComponent,
     HeaderComponent,
-    TaskListComponent
+    TaskListComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -37,9 +41,13 @@ import { AppRoutingModule } from './app-routing.module';
     MatExpansionModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    MatDialogModule,
     HttpClientModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }

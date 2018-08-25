@@ -35,6 +35,11 @@ app.post("/api/tasks", (req, res, next) => {
       message: 'Task added successfully',
       taskId: createdTask._id
     });
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Creating a post failed'
+    });
   });
 });
 
@@ -46,6 +51,11 @@ app.put("/api/tasks/:id", (req, res, next) => {
   });
   Task.updateOne({ _id: req.params.id }, task).then(result => {
     res.status(200).json({ message: 'update success' });
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Updating task failed'
+    });
   });
 });
 
@@ -56,9 +66,7 @@ app.get("/api/tasks", (req, res, next) => {
   let fetchedTasks;
 
   if (pageSize && currentPage) {
-    taskQuery
-      .skip(pageSize * (currentPage - 1))
-      .limit(pageSize);
+    taskQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
   }
   taskQuery.then(documents => {
     fetchedTasks = documents;
@@ -68,6 +76,11 @@ app.get("/api/tasks", (req, res, next) => {
       message: 'Tasks fetched successfully',
       tasks: fetchedTasks,
       maxTasks: count
+    });
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Getting tasks failed'
     });
   });
 });
@@ -79,6 +92,10 @@ app.get("/api/tasks/:id", (req, res, next) => {
     } else {
       return res.status(404).json({ message: 'Task not found' });
     }
+  }).catch(error => {
+    res.status(500).json({
+      message: 'Getting task failed'
+    });
   });
 });
 
@@ -86,6 +103,11 @@ app.delete("/api/tasks/:id", (req, res, next) => {
   Task.deleteOne({ _id: req.params.id })
   .then(result => {
     res.status(200).json({ message: 'Task deleted' });
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Deleting task failed'
+    });
   });
 });
 
