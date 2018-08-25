@@ -5,6 +5,10 @@ import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
+import { environment } from '../../environments/environment';
+
+const BACKEND_URL = environment.apiUrl + '/tasks/';
+
 @Injectable({providedIn: 'root'})
 export class TasksService {
   private tasks: Task[] = [];
@@ -14,7 +18,7 @@ export class TasksService {
 
   getTasks(tasksPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${tasksPerPage}&page=${currentPage}`;
-    this.http.get<{ message: string, tasks: any, maxTasks: number }>('http://localhost:3000/api/tasks' + queryParams)
+    this.http.get<{ message: string, tasks: any, maxTasks: number }>(BACKEND_URL + queryParams)
     .pipe(map(taskData => {
       return {
         tasks: taskData.tasks.map(task => {
@@ -38,29 +42,29 @@ export class TasksService {
   }
 
   getTask(id: string) {
-    return this.http.get<{ _id: string, title: string, content: string }>('http://localhost:3000/api/tasks/' + id);
+    return this.http.get<{ _id: string, title: string, content: string }>(BACKEND_URL + id);
   }
 
   addTask(title: string, content: string) {
     const task: Task = {id: null, title: title, content: content};
-    this.http.post<{message: string, taskId: string}>('http://localhost:3000/api/tasks', task)
+    this.http.post<{message: string, taskId: string}>(BACKEND_URL, task)
     .subscribe((responseData) => {
 
-      this.router.navigate(["/"]);
+      this.router.navigate(['/']);
     });
   }
 
   updateTask(id: string, title: string, content: string) {
     const task: Task = { id: id, title: title, content: content };
-    this.http.put('http://localhost:3000/api/tasks/' + id, task)
+    this.http.put(BACKEND_URL + id, task)
     .subscribe(response => {
 
-      this.router.navigate(["/"]);
+      this.router.navigate(['/']);
     });
   }
 
   deleteTask(taskId: string) {
-    return this.http.delete('http://localhost:3000/api/tasks/' + taskId);
+    return this.http.delete(BACKEND_URL + taskId);
   }
 
 }

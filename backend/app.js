@@ -7,7 +7,7 @@ const Task = require('./models/task');
 
 const app = express();
 
-mongoose.connect("mongodb+srv://pablo:zcsaxao023ZAikbx@cluster0-rc0u1.mongodb.net/node-angular?retryWrites=true")
+mongoose.connect("mongodb+srv://pablo:" + process.env.MONGO_ATLAS_PW + "@cluster0-rc0u1.mongodb.net/node-angular?retryWrites=true")
 .then(() => {
   console.log("Connected to DB");
 })
