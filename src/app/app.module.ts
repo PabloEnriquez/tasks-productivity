@@ -12,6 +12,7 @@ import {
   MatProgressSpinnerModule,
   MatPaginatorModule,
   MatDialogModule} from '@angular/material';
+import { SortablejsModule } from 'angular-sortablejs';
 
 import { AppComponent } from './app.component';
 import { TaskCreateComponent } from './tasks/task-create/task-create.component';
@@ -42,7 +43,8 @@ import { ErrorComponent } from './error/error.component';
     MatProgressSpinnerModule,
     MatPaginatorModule,
     MatDialogModule,
-    HttpClientModule
+    HttpClientModule,
+    SortablejsModule.forRoot({ animation: 150 })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }

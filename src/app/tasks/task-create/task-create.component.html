@@ -2,14 +2,22 @@
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <form (submit)="onSaveTask(taskForm)" #taskForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
-        <input matInput type="text" name="title" [ngModel]="task?.title" required placeholder="Titulo de tarea" #title="ngModel">
-        <mat-error *ngIf="title.invalid">Por favor ingrese titulo de tarea</mat-error>
+      <input matInput type="text" name="title" [ngModel]="task?.title" required placeholder="Título de tarea" #title="ngModel">
+      <mat-error *ngIf="title.invalid">Por favor ingrese título de tarea</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput rows="4" name="content" [ngModel]="task?.content" required placeholder="Descripción" #content="ngModel"></textarea>
+      <mat-error *ngIf="content.invalid">Por favor ingrese descripción de tarea</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="number" name="dur_min" [ngModel]="task?.duration.min" required placeholder="Duración - minutos" #dur_min="ngModel">
+      <mat-error *ngIf="dur_min.invalid">Por favor ingrese duración - minutos</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="number" name="dur_sec" [ngModel]="task?.duration.sec" required placeholder="Duración - segundos" #dur_sec="ngModel">
+      <mat-error *ngIf="dur_sec.invalid">Por favor ingrese duración - segundos</mat-error>
       </mat-form-field>
-      <mat-form-field>
-        <textarea matInput rows="4" name="content" [ngModel]="task?.content" required placeholder="Contenido" #content="ngModel"></textarea>
-        <mat-error *ngIf="content.invalid">Por favor ingrese descripcion de tarea</mat-error>
-      </mat-form-field>
-      <button mat-raised-button color="primary" type="submit">Agregar tarea</button>
+    <button mat-raised-button color="primary" type="submit">Agregar tarea</button>
   </form>
 </mat-card>
 

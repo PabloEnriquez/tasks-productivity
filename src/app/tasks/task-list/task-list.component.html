@@ -1,6 +1,6 @@
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-accordion *ngIf="tasks.length > 0 && !isLoading">
+<mat-accordion multi="true" *ngIf="tasks.length > 0 && !isLoading" [sortablejs]="tasks" [sortablejsOptions]="options">
   <mat-expansion-panel *ngFor="let task of tasks">
     <mat-expansion-panel-header>
       {{ task.title }}

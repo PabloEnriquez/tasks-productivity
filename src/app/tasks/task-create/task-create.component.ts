@@ -29,7 +29,8 @@ export class TaskCreateComponent implements OnInit {
         this.isLoading = true;
         this.tasksService.getTask(this.taskId).subscribe(taskData => {
           this.isLoading = false;
-          this.task = {id: taskData._id, title: taskData.title, content: taskData.content};
+          this.task = {id: taskData._id, title: taskData.title, content: taskData.content,
+          duration: taskData.duration, completion: taskData.completion, isCompleted: taskData.isCompleted};
         });
       } else {
         this.mode = 'create';
@@ -44,9 +45,9 @@ export class TaskCreateComponent implements OnInit {
     }
     this.isLoading = true;
     if (this.mode === 'create') {
-      this.tasksService.addTask(form.value.title, form.value.content);
+      this.tasksService.addTask(form.value.title, form.value.content, form.value.dur_min, form.value.dur_sec);
     } else {
-      this.tasksService.updateTask(this.taskId, form.value.title, form.value.content);
+      this.tasksService.updateTask(this.taskId, form.value.title, form.value.content, form.value.dur_min, form.value.dur_sec);
     }
     form.resetForm();
   }

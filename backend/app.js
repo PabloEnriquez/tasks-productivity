@@ -28,7 +28,8 @@ app.use((req, res, next) => {
 app.post("/api/tasks", (req, res, next) => {
   const task = new Task({
     title: req.body.title,
-    content: req.body.content
+    content: req.body.content,
+    duration: { min: req.body.duration.min, sec: req.body.duration.sec }
   });
   task.save().then(createdTask => {
     res.status(201).json({
@@ -38,7 +39,8 @@ app.post("/api/tasks", (req, res, next) => {
   })
   .catch(error => {
     res.status(500).json({
-      message: 'Creating a post failed'
+      message: 'Creating a post failed',
+      error: error
     });
   });
 });
@@ -47,14 +49,63 @@ app.put("/api/tasks/:id", (req, res, next) => {
   const task = new Task({
     _id: req.body.id,
     title: req.body.title,
-    content: req.body.content
+    content: req.body.content,
+    duration: { min: req.body.duration.min, sec: req.body.duration.sec }
   });
   Task.updateOne({ _id: req.params.id }, task).then(result => {
-    res.status(200).json({ message: 'update success' });
+    res.status(200).json({ message: 'Update success' });
   })
   .catch(error => {
     res.status(500).json({
-      message: 'Updating task failed'
+      message: 'Updating task failed',
+      error: error
+    });
+  });
+});
+
+app.put("/api/tasks/completed/:id", (req, res, next) => {
+  const task = new Task({
+    _id: req.body.id,
+    title: req.body.title,
+    content: req.body.content,
+    duration: { min: req.body.duration.min, sec: req.body.duration.sec },
+    completion: { min: req.body.completion.min, sec: req.body.completion.sec },
+    isCompleted: true
+  });
+  Task.updateOne({ _id: req.params.id }, task).then(result => {
+    res.status(200).json({ message: 'Task saved as completed success' });
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Saving task as completed failed',
+      error: error
+    });
+  });
+});
+
+app.get("/api/tasks/completed", (req, res, next) => {
+  const pageSize = +req.query.pagesize;
+  const currentPage = +req.query.page;
+  const taskQuery = Task.find({ isCompleted: true });
+  let fetchedTasks;
+
+  if (pageSize && currentPage) {
+    taskQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+  }
+  taskQuery.then(documents => {
+    fetchedTasks = documents;
+    return Task.count();
+  }).then(count => {
+    res.status(200).json({
+      message: 'Completed Tasks fetched successfully',
+      tasks: fetchedTasks,
+      maxTasks: count
+    });
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Getting tasks failed',
+      error: error
     });
   });
 });
@@ -80,21 +131,23 @@ app.get("/api/tasks", (req, res, next) => {
   })
   .catch(error => {
     res.status(500).json({
-      message: 'Getting tasks failed'
+      message: 'Getting tasks failed',
+      error: error
     });
   });
 });
 
 app.get("/api/tasks/:id", (req, res, next) => {
-  Task.findById(req.params.id).then(post => {
-    if (post) {
-      return res.status(200).json(post);
+  Task.findById(req.params.id).then(task => {
+    if (task) {
+      return res.status(200).json(task);
     } else {
       return res.status(404).json({ message: 'Task not found' });
     }
   }).catch(error => {
     res.status(500).json({
-      message: 'Getting task failed'
+      message: 'Getting task failed',
+      error: error
     });
   });
 });
@@ -106,7 +159,8 @@ app.delete("/api/tasks/:id", (req, res, next) => {
   })
   .catch(error => {
     res.status(500).json({
-      message: 'Deleting task failed'
+      message: 'Deleting task failed',
+      error: error
     });
   });
 });

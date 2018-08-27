@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Task } from '../task.model';
 import { TasksService } from '../tasks.service';
 import { PageEvent } from '@angular/material';
+import { SortablejsOptions } from 'angular-sortablejs';
 
 @Component({
   selector: 'app-task-list',
