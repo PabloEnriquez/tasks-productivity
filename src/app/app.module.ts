@@ -11,7 +11,8 @@ import {
   MatExpansionModule,
   MatProgressSpinnerModule,
   MatPaginatorModule,
-  MatDialogModule} from '@angular/material';
+  MatDialogModule,
+  MatDividerModule} from '@angular/material';
 import { SortablejsModule } from 'angular-sortablejs';
 
 import { AppComponent } from './app.component';
@@ -21,6 +22,8 @@ import { HeaderComponent } from './header/header.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { ErrorComponent } from './error/error.component';
+import { TaskListCompletedComponent } from './tasks/task-list-completed/task-list-completed.component';
+import { TaskExecuteComponent } from './tasks/task-execute/task-execute.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,8 @@ import { ErrorComponent } from './error/error.component';
     TaskCreateComponent,
     HeaderComponent,
     TaskListComponent,
+    TaskListCompletedComponent,
+    TaskExecuteComponent,
     ErrorComponent
   ],
   imports: [
@@ -43,6 +48,7 @@ import { ErrorComponent } from './error/error.component';
     MatProgressSpinnerModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatDividerModule,
     HttpClientModule,
     SortablejsModule.forRoot({ animation: 150 })
   ],
@@ -50,6 +56,6 @@ import { ErrorComponent } from './error/error.component';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorComponent]
+  entryComponents: [ErrorComponent, TaskExecuteComponent]
 })
 export class AppModule { }

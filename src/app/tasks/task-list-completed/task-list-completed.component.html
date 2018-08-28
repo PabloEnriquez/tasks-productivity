@@ -1,7 +1,4 @@
-
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<a mat-button color="primary" *ngIf="!isLoading" (click)="openDialog()">COMENZAR TAREA EN CURSO</a>
-<mat-divider></mat-divider>
 <mat-accordion multi="true" *ngIf="tasks.length > 0 && !isLoading" [sortablejs]="tasks">
   <mat-expansion-panel *ngFor="let task of tasks">
     <mat-expansion-panel-header>
@@ -10,12 +7,13 @@
     <span>Descripción: </span> {{ task.content }}
     <mat-divider></mat-divider>
     Duración => {{ task.duration.min }} minutos : {{ task.duration.sec }} segundos
+    <mat-divider></mat-divider>
+    Completada en => {{ task.completion.min }} minutos : {{ task.completion.sec }} segundos
     <mat-action-row>
-      <a mat-button color="primary" [routerLink]="['/edit', task.id]">EDITAR</a>
       <button mat-button color="warn" (click)="onDelete(task.id)">ELIMINAR</button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
 <mat-paginator [length]="totalTasks" [pageSize]="tasksPerPage" [pageSizeOptions]="pageSizeOptions"
  (page)="onChangedPage($event)" *ngIf="tasks.length > 0"></mat-paginator>
-<p class="info-text mat-body-1" *ngIf="tasks.length <= 0 && !isLoading">No hay tareas agregadas</p>
+<p class="info-text mat-body-1" *ngIf="tasks.length <= 0 && !isLoading">No hay tareas completadas</p>

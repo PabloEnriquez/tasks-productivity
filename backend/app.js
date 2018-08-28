@@ -113,7 +113,7 @@ app.get("/api/tasks/completed", (req, res, next) => {
 app.get("/api/tasks", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const taskQuery = Task.find();
+  const taskQuery = Task.find({ isCompleted: false });
   let fetchedTasks;
 
   if (pageSize && currentPage) {

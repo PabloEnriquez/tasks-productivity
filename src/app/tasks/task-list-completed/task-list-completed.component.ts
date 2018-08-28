@@ -3,15 +3,14 @@ import { Subscription } from 'rxjs';
 
 import { Task } from '../task.model';
 import { TasksService } from '../tasks.service';
-import { PageEvent, MatDialog } from '@angular/material';
-import { TaskExecuteComponent } from '../task-execute/task-execute.component';
+import { PageEvent } from '@angular/material';
 
 @Component({
-  selector: 'app-task-list',
-  templateUrl: './task-list.component.html',
-  styleUrls: ['./task-list.component.css']
+  selector: 'app-task-list-completed',
+  templateUrl: './task-list-completed.component.html',
+  styleUrls: ['./task-list-completed.component.css']
 })
-export class TaskListComponent implements OnInit, OnDestroy {
+export class TaskListCompletedComponent implements OnInit, OnDestroy {
   tasks: Task[] = [];
   private tasksSub: Subscription;
   isLoading = false;
@@ -20,11 +19,11 @@ export class TaskListComponent implements OnInit, OnDestroy {
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 
-  constructor(public tasksService: TasksService, private dialog: MatDialog) {}
+  constructor(public tasksService: TasksService) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.tasksService.getTasks(this.tasksPerPage, this.currentPage);
+    this.tasksService.getCompletedTasks(this.tasksPerPage, this.currentPage);
     this.tasksSub = this.tasksService.getTaskUpdateListener()
     .subscribe((taskData: { tasks: Task[], taskCount: number }) => {
       this.isLoading = false;
@@ -37,27 +36,15 @@ export class TaskListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
     this.tasksPerPage = pageData.pageSize;
-    this.tasksService.getTasks(this.tasksPerPage, this.currentPage);
+    this.tasksService.getCompletedTasks(this.tasksPerPage, this.currentPage);
   }
 
   onDelete(taskId: string) {
     this.isLoading = true;
     this.tasksService.deleteTask(taskId).subscribe(() => {
-      this.tasksService.getTasks(this.tasksPerPage, this.currentPage);
+      this.tasksService.getCompletedTasks(this.tasksPerPage, this.currentPage);
     }, () => {
       this.isLoading = false;
-    });
-  }
-
-  openDialog() {
-    const dialogRef = this.dialog.open(TaskExecuteComponent, {data: this.tasks[0]});
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log(`Dialog result: ${result.title}`);
-      } else {
-        console.log('Closed normally');
-      }
     });
   }
 

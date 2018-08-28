@@ -16,7 +16,7 @@
     <mat-form-field>
       <input matInput type="number" name="dur_sec" [ngModel]="task?.duration.sec" required placeholder="Duración - segundos" #dur_sec="ngModel">
       <mat-error *ngIf="dur_sec.invalid">Por favor ingrese duración - segundos</mat-error>
-      </mat-form-field>
+    </mat-form-field>
     <button mat-raised-button color="primary" type="submit">Agregar tarea</button>
   </form>
 </mat-card>
