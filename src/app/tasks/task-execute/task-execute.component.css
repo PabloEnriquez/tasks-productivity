@@ -15,3 +15,8 @@ mat-divider {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+
+.timer {
+  display: inline;
+  white-space: nowrap;
+}

@@ -2,9 +2,18 @@
 <div mat-dialog-content>
   <p class="mat-body-1">Descripción: {{ task.content }}</p>
   <mat-divider></mat-divider>
-  <p class="mat-body-1">Duración => {{ task.duration.min }}:{{ task.duration.sec }}</p>
+  <p class="mat-body-1">Duración =>
+  </p>
+  <span class="timer"><input matInput type="number" id="dur_min" [ngModel]="task?.duration.min" disabled #dur_min="ngModel"></span>
+  <span>:</span>
+  <span class="timer"><input matInput type="number" id="dur_sec" [ngModel]="task?.duration.sec" disabled #dur_sec="ngModel"></span>
+  <mat-divider></mat-divider>
 </div>
 <div mat-dialog-actions>
+  <button mat-button color="primary" (click)="playCount()">Iniciar/Continuar</button>
+  <button mat-button color="primary" (click)="pauseCount()">Pausar</button>
+  <button mat-button color="primary" (click)="restartCountdown()">Reiniciar</button>
+  <button mat-button color="primary" (click)="stopCount()">Detener</button>
   <button mat-button mat-dialog-close color="warn">Cerrar</button>
   <button mat-button [mat-dialog-close]="task" color="primary">Completar Tarea</button>
 </div>
