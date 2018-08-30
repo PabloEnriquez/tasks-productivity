@@ -19,6 +19,8 @@ export class TaskExecuteComponent {
   endTime = 0;
   initialMin;
   initialSec;
+  compMin = 0;
+  compSec = 0;
   minPass = 0;
   secPass = 0;
 
@@ -49,8 +51,19 @@ export class TaskExecuteComponent {
         (<HTMLInputElement>document.getElementById('dur_sec')).value = '' + twoDigits( time.getUTCSeconds() ) ;
         this.task.duration.min = mins;
         this.task.duration.sec = time.getUTCSeconds();
+
+        this.compSec++;
+        if (this.compSec >= 60) {
+          this.compSec = 0;
+          this.compMin++;
+          if (this.compMin >= 60) {
+            this.compMin = 0;
+          }
+        }
+
         this.timeout = setTimeout(() => { this.updateTimer(); } , time.getUTCMilliseconds() + 500);
     }
+
   }
 
   restartCountdown() {
@@ -80,5 +93,13 @@ export class TaskExecuteComponent {
     clearTimeout(this.timeout);
   }
 
+  saveTask() {
+    this.dialogRef.close({
+      durMin: this.initialMin,
+      durSec: this.initialSec,
+      compMin: this.compMin,
+      compSec: this.compSec
+    } );
+  }
 
 }

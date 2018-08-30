@@ -16,7 +16,24 @@ mat-divider {
   margin-bottom: 1rem;
 }
 
-.timer {
+.containerDiv {
+  margin: auto;
+}
+
+span.a {
   display: inline;
   white-space: nowrap;
+  text-align: left;
+  font-size: 25px;
+  margin: auto;
+}
+
+.inputA {
+  width: 3rem;
+  text-align: right;
+}
+
+.inputB {
+  width: 4rem;
+  text-align: center;
 }

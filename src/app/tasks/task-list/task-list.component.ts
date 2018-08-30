@@ -54,7 +54,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(`Dialog result: ${result.title}`);
+        console.log(`Dialog result: ${result.compMin} ` + result.compSec);
       } else {
         console.log('Closed normally');
       }
