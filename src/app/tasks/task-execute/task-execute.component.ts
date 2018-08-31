@@ -1,10 +1,6 @@
-import { EventEmitter } from '@angular/core';
 import { Component, OnInit, Inject } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-import { TasksService } from '../tasks.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Task } from '../task.model';
 
 @Component({
@@ -14,15 +10,14 @@ import { Task } from '../task.model';
 })
 export class TaskExecuteComponent {
 
-  timer_is_on = 0;
+  timerIsOn = 0;
+  timerIsOnStop = 0;
   timeout;
   endTime = 0;
   initialMin;
   initialSec;
   compMin = 0;
   compSec = 0;
-  minPass = 0;
-  secPass = 0;
 
   constructor(@Inject(MAT_DIALOG_DATA) public task: Task, public dialogRef: MatDialogRef<TaskExecuteComponent>) {
     this.initialMin = this.task.duration.min;
@@ -42,7 +37,12 @@ export class TaskExecuteComponent {
 
     if ( msLeft < 1000 ) {
       clearTimeout(this.timeout);
-      this.dialogRef.close(this.task);
+      this.dialogRef.close({
+        durMin: this.initialMin,
+        durSec: this.initialSec,
+        compMin: this.compMin,
+        compSec: this.compSec
+      });
     } else {
         time = new Date( msLeft );
         hours = time.getUTCHours();
@@ -56,9 +56,6 @@ export class TaskExecuteComponent {
         if (this.compSec >= 60) {
           this.compSec = 0;
           this.compMin++;
-          if (this.compMin >= 60) {
-            this.compMin = 0;
-          }
         }
 
         this.timeout = setTimeout(() => { this.updateTimer(); } , time.getUTCMilliseconds() + 500);
@@ -68,32 +65,33 @@ export class TaskExecuteComponent {
 
   restartCountdown() {
     this.endTime = (+new Date) + 1000 * (60 * this.initialMin + this.initialSec) + 500;
-    if (!this.timer_is_on) {
-      this.timer_is_on = 1;
+    if (!this.timerIsOn || !this.timerIsOnStop) {
+      this.timerIsOn = 1;
+      this.timerIsOnStop = 1;
       this.updateTimer();
     }
   }
 
   playCount() {
     this.endTime = (+new Date) + 1000 * (60 * this.task.duration.min + this.task.duration.sec) + 500;
-    if (!this.timer_is_on) {
-      this.timer_is_on = 1;
+    if (!this.timerIsOn) {
+      this.timerIsOn = 1;
       this.updateTimer();
     }
   }
 
   pauseCount() {
-    // this.task.duration.min -= this.minPass;
-    // this.task.duration.sec -= this.secPass;
     clearTimeout(this.timeout);
-    this.timer_is_on = 0;
+    this.timerIsOn = 0;
   }
 
   stopCount() {
     clearTimeout(this.timeout);
+    this.timerIsOnStop = 0;
   }
 
-  saveTask() {
+  saveCompletedTask() {
+    clearTimeout(this.timeout);
     this.dialogRef.close({
       durMin: this.initialMin,
       durSec: this.initialSec,

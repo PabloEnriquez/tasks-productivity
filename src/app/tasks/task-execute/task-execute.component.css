@@ -7,6 +7,10 @@
   text-align: center;
 }
 
+h3 {
+  text-align: center;
+}
+
 mat-spinner {
   margin: auto;
 }
@@ -16,24 +20,24 @@ mat-divider {
   margin-bottom: 1rem;
 }
 
-.containerDiv {
-  margin: auto;
+.containerDur {
+  margin-left: 40%;
 }
 
 span.a {
   display: inline;
   white-space: nowrap;
   text-align: left;
-  font-size: 25px;
+  font-size: 45px;
   margin: auto;
 }
 
 .inputA {
-  width: 3rem;
-  text-align: right;
+  width: 4.5rem;
+  text-align: left;
 }
 
 .inputB {
-  width: 4rem;
+  width: 6.5rem;
   text-align: center;
 }
