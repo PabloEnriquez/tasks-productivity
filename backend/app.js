@@ -70,7 +70,8 @@ app.put("/api/tasks/completed/:id", (req, res, next) => {
     content: req.body.content,
     duration: { min: req.body.duration.min, sec: req.body.duration.sec },
     completion: { min: req.body.completion.min, sec: req.body.completion.sec },
-    isCompleted: true
+    isCompleted: true,
+    date: Date.now
   });
   Task.updateOne({ _id: req.params.id }, task).then(result => {
     res.status(200).json({ message: 'Task saved as completed success' });
@@ -98,6 +99,36 @@ app.get("/api/tasks/completed", (req, res, next) => {
   }).then(count => {
     res.status(200).json({
       message: 'Completed Tasks fetched successfully',
+      tasks: fetchedTasks,
+      maxTasks: count
+    });
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Getting tasks failed',
+      error: error
+    });
+  });
+});
+
+app.get("/api/tasks/productivity", (req, res, next) => {
+  const pageSize = +req.query.pagesize;
+  const currentPage = +req.query.page;
+  const taskQuery = Task.find({
+    isCompleted: true
+    // date: new Date(new Date() - 7 * 60 * 60 * 24 * 1000)
+  });
+  let fetchedTasks;
+
+  if (pageSize && currentPage) {
+    taskQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+  }
+  taskQuery.then(documents => {
+    fetchedTasks = documents;
+    return Task.count();
+  }).then(count => {
+    res.status(200).json({
+      message: 'Last week Completed Tasks fetched successfully',
       tasks: fetchedTasks,
       maxTasks: count
     });

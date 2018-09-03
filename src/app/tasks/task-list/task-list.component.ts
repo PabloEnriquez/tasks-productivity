@@ -12,6 +12,7 @@ import { TaskExecuteComponent } from '../task-execute/task-execute.component';
   styleUrls: ['./task-list.component.css']
 })
 export class TaskListComponent implements OnInit, OnDestroy {
+
   tasks: Task[] = [];
   private tasksSub: Subscription;
   isLoading = false;

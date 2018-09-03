@@ -5,4 +5,5 @@ export interface Task {
   duration: { min: number, sec: number };
   completion?: { min: number, sec: number };
   isCompleted?: boolean;
+  date?: Date;
 }

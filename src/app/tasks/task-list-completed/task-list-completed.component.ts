@@ -11,6 +11,7 @@ import { PageEvent } from '@angular/material';
   styleUrls: ['./task-list-completed.component.css']
 })
 export class TaskListCompletedComponent implements OnInit, OnDestroy {
+
   tasks: Task[] = [];
   private tasksSub: Subscription;
   isLoading = false;

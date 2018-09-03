@@ -9,6 +9,7 @@ import { environment } from '../../environments/environment';
 
 const BACKEND_URL = environment.apiUrl + '/tasks/';
 const BACKEND_URL_COMP = environment.apiUrl + '/tasks/completed/';
+const BACKEND_URL_PROD = environment.apiUrl + '/tasks/productivity/';
 
 @Injectable({providedIn: 'root'})
 export class TasksService {
@@ -52,6 +53,31 @@ export class TasksService {
             duration: { min: task.duration.min, sec: task.duration.sec },
             completion: { min: task.completion.min, sec: task.completion.sec },
             isCompleted: task.isCompleted
+          };
+        }),
+        maxTasks: taskData.maxTasks
+      };
+    }))
+    .subscribe((transformedTaskData) => {
+      this.tasks = transformedTaskData.tasks;
+      this.tasksUpdated.next({ tasks: [...this.tasks], taskCount: transformedTaskData.maxTasks});
+    });
+  }
+
+  getProductivityTasks(tasksPerPage: number, currentPage: number) {
+    const queryParams = `?pagesize=${tasksPerPage}&page=${currentPage}`;
+    this.http.get<{ message: string, tasks: any, maxTasks: number }>(BACKEND_URL_PROD + queryParams)
+    .pipe(map(taskData => {
+      return {
+        tasks: taskData.tasks.map(task => {
+          return {
+            id: task._id,
+            title: task.title,
+            content: task.content,
+            duration: { min: task.duration.min, sec: task.duration.sec },
+            completion: { min: task.completion.min, sec: task.completion.sec },
+            isCompleted: task.isCompleted,
+            date: task.date
           };
         }),
         maxTasks: taskData.maxTasks

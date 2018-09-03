@@ -24,6 +24,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ErrorComponent } from './error/error.component';
 import { TaskListCompletedComponent } from './tasks/task-list-completed/task-list-completed.component';
 import { TaskExecuteComponent } from './tasks/task-execute/task-execute.component';
+import { TaskProductivityComponent } from './tasks/task-productivity/task-productivity.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { TaskExecuteComponent } from './tasks/task-execute/task-execute.componen
     TaskListComponent,
     TaskListCompletedComponent,
     TaskExecuteComponent,
-    ErrorComponent
+    ErrorComponent,
+    TaskProductivityComponent
   ],
   imports: [
     BrowserModule,
