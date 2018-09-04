@@ -14,7 +14,7 @@ export class TaskProductivityComponent implements OnInit, OnDestroy {
   tasks: Task[] = [];
   private tasksSub: Subscription;
   isLoading = false;
-  tasksPerPage = 4;
+  tasksPerPage = 10;
   currentPage = 1;
   taskDates = [];
   tasksDurMin = [];
@@ -28,38 +28,20 @@ export class TaskProductivityComponent implements OnInit, OnDestroy {
     this.tasksService.getProductivityTasks(this.tasksPerPage, this.currentPage);
     this.tasksSub = this.tasksService.getTaskUpdateListener()
     .subscribe((taskData: { tasks: Task[], taskCount: number }) => {
-      // console.log(taskData);
       this.isLoading = false;
       this.tasks = taskData.tasks;
-      // console.log(this.tasks);
       this.tasks.forEach((task) => {
         this.tasksDurMin.push(task.duration.min);
         this.tasksCompMin.push(task.completion.min);
-        // console.log(task.date);
 
         const dateAux = new Date('' + task.date + '');
         this.taskDates.push(dateAux.toLocaleTimeString('es', { year: 'numeric', month: 'short', day: 'numeric' }));
-        // console.log('dates: ' + this.taskDates );
-        // console.log('short: ' + this.shortTasks );
-        // console.log('med: ' + this.medTasks );
-        // console.log('long: ' + this.longTasks );
       });
-
       this.createChart();
-
     });
-
   }
 
   createChart() {
-
-    console.log('dates: ' + this.taskDates );
-    console.log('durmin: ' + this.tasksDurMin );
-    console.log('compmin: ' + this.tasksCompMin );
-
-    const canvas = <HTMLCanvasElement>document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-
     this.chart = new Chart('canvas', {
       type: 'bar',
       data: {
@@ -68,13 +50,13 @@ export class TaskProductivityComponent implements OnInit, OnDestroy {
           {
             data: this.tasksDurMin,
             label: 'Duración Minutos',
-            borderColor: '#3cba9f',
+            backgroundColor: '#d83c31',
             fill: false
           },
           {
             data: this.tasksCompMin,
             label: 'Completado Minutos',
-            borderColor: '#251187',
+            backgroundColor: '#3F51B5',
             fill: false
           }
         ]

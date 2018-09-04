@@ -16,7 +16,7 @@ export class TaskListCompletedComponent implements OnInit, OnDestroy {
   private tasksSub: Subscription;
   isLoading = false;
   totalTasks = 0;
-  tasksPerPage = 4;
+  tasksPerPage = 5;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
 

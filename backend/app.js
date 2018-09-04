@@ -87,7 +87,8 @@ app.put("/api/tasks/completed/:id", (req, res, next) => {
 app.get("/api/tasks/completed", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const taskQuery = Task.find({ isCompleted: true });
+  const taskQuery = Task.find({ isCompleted: true })
+  .sort({ "duration.min": 1 });
   let fetchedTasks;
 
   if (pageSize && currentPage) {
@@ -119,7 +120,7 @@ app.get("/api/tasks/productivity", (req, res, next) => {
     date: {
       $gte: new Date((new Date().getTime() - (15 * 24 * 60 * 60 * 1000)))
     }
-  }).sort({ date: -1 });
+  }).sort({ date: 1 });
   let fetchedTasks;
 
   if (pageSize && currentPage) {
@@ -146,7 +147,8 @@ app.get("/api/tasks/productivity", (req, res, next) => {
 app.get("/api/tasks", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const taskQuery = Task.find({ isCompleted: false });
+  const taskQuery = Task.find({ isCompleted: false })
+  .sort({ "duration.min": 1 });
   let fetchedTasks;
 
   if (pageSize && currentPage) {

@@ -1,5 +1,5 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<a mat-button color="primary" routerLink="/productivity">Ver Productividad</a>
+<a mat-button color="primary" routerLink="/productivity" *ngIf="!isLoading">Ver Productividad</a>
 <mat-divider></mat-divider>
 <mat-accordion multi="true" *ngIf="tasks.length > 0 && !isLoading" [sortablejs]="tasks">
   <mat-expansion-panel *ngFor="let task of tasks">

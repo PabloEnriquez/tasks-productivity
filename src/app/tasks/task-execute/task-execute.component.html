@@ -2,9 +2,10 @@
 <div mat-dialog-content>
   <p class="mat-body-1">Descripción: {{ task.content }}</p>
   <mat-divider></mat-divider>
-  <p class="mat-body-1">Duración => {{ task.duration.min }}:{{ task.duration.sec }}
+  <p class="mat-body-1">Duración =>
+    <span [hidden]="isCounting">{{ task.duration.min }}:{{ task.duration.sec }}</span>
   </p>
-  <div class="containerDur">
+  <div class="containerDur" [hidden]="!isCounting">
     <input class="inputA" matInput type="text" id="dur_min" [ngModel]="task?.duration.min" disabled>
   </div>
   <mat-divider></mat-divider>
