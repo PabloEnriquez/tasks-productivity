@@ -71,7 +71,7 @@ app.put("/api/tasks/completed/:id", (req, res, next) => {
     duration: { min: req.body.duration.min, sec: req.body.duration.sec },
     completion: { min: req.body.completion.min, sec: req.body.completion.sec },
     isCompleted: true,
-    date: Date.now
+    date: Date.now()
   });
   Task.updateOne({ _id: req.params.id }, task).then(result => {
     res.status(200).json({ message: 'Task saved as completed success' });
@@ -115,9 +115,11 @@ app.get("/api/tasks/productivity", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
   const taskQuery = Task.find({
-    isCompleted: true
-    // date: new Date(new Date() - 7 * 60 * 60 * 24 * 1000)
-  });
+    isCompleted: true,
+    date: {
+      $gte: new Date((new Date().getTime() - (15 * 24 * 60 * 60 * 1000)))
+    }
+  }).sort({ date: -1 });
   let fetchedTasks;
 
   if (pageSize && currentPage) {

@@ -21,23 +21,12 @@ mat-divider {
 }
 
 .containerDur {
-  margin-left: 40%;
-}
-
-span.a {
-  display: inline;
-  white-space: nowrap;
-  text-align: left;
-  font-size: 45px;
-  margin: auto;
+  margin-left: 20%;
 }
 
 .inputA {
-  width: 4.5rem;
-  text-align: left;
-}
-
-.inputB {
-  width: 6.5rem;
+  width: 20rem;
+  font-size: 50px;
   text-align: center;
 }
+

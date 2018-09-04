@@ -9,7 +9,7 @@ import { Chart } from 'chart.js';
   templateUrl: './task-productivity.component.html',
   styleUrls: ['./task-productivity.component.css']
 })
-export class TaskProductivityComponent implements OnInit, OnDestroy, AfterViewInit {
+export class TaskProductivityComponent implements OnInit, OnDestroy {
 
   tasks: Task[] = [];
   private tasksSub: Subscription;
@@ -17,9 +17,8 @@ export class TaskProductivityComponent implements OnInit, OnDestroy, AfterViewIn
   tasksPerPage = 4;
   currentPage = 1;
   taskDates = [];
-  shortTasks = [];
-  medTasks = [];
-  longTasks = [];
+  tasksDurMin = [];
+  tasksCompMin = [];
   chart = [];
 
   constructor(public tasksService: TasksService) {}
@@ -29,61 +28,55 @@ export class TaskProductivityComponent implements OnInit, OnDestroy, AfterViewIn
     this.tasksService.getProductivityTasks(this.tasksPerPage, this.currentPage);
     this.tasksSub = this.tasksService.getTaskUpdateListener()
     .subscribe((taskData: { tasks: Task[], taskCount: number }) => {
-      console.log(taskData);
+      // console.log(taskData);
       this.isLoading = false;
       this.tasks = taskData.tasks;
-      console.log(this.tasks);
+      // console.log(this.tasks);
       this.tasks.forEach((task) => {
-        if (task.duration.min <= 30) {
-          this.shortTasks.push(task.duration.min);
-        } else if (task.duration.min > 30 && task.duration.min <= 60) {
-          this.medTasks.push(task.duration.min);
-        } else if (task.duration.min > 60) {
-          this.longTasks.push(task.duration.min);
-        }
-        console.log(task.date);
+        this.tasksDurMin.push(task.duration.min);
+        this.tasksCompMin.push(task.completion.min);
+        // console.log(task.date);
 
-        this.taskDates.push(task.date.toLocaleTimeString('es', { year: 'numeric', month: 'short', day: 'numeric' }));
+        const dateAux = new Date('' + task.date + '');
+        this.taskDates.push(dateAux.toLocaleTimeString('es', { year: 'numeric', month: 'short', day: 'numeric' }));
+        // console.log('dates: ' + this.taskDates );
+        // console.log('short: ' + this.shortTasks );
+        // console.log('med: ' + this.medTasks );
+        // console.log('long: ' + this.longTasks );
       });
+
+      this.createChart();
+
     });
 
-
-
-    // console.log('dates: ' + this.taskDates );
-    // console.log('short: ' + this.shortTasks );
-    // console.log('med: ' + this.medTasks );
-    // console.log('long: ' + this.longTasks );
-
-    // this.createChart();
   }
 
-  ngAfterViewInit() {
+  createChart() {
+
+    console.log('dates: ' + this.taskDates );
+    console.log('durmin: ' + this.tasksDurMin );
+    console.log('compmin: ' + this.tasksCompMin );
+
     const canvas = <HTMLCanvasElement>document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
     this.chart = new Chart('canvas', {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: this.taskDates,
         datasets: [
           {
-            data: this.shortTasks,
-            label: 'Tareas Cortas',
+            data: this.tasksDurMin,
+            label: 'Duración Minutos',
             borderColor: '#3cba9f',
             fill: false
           },
           {
-            data: this.medTasks,
-            label: 'Tareas Medias',
+            data: this.tasksCompMin,
+            label: 'Completado Minutos',
             borderColor: '#251187',
             fill: false
-          },
-          {
-            data: this.longTasks,
-            label: 'Tareas Largas',
-            borderColor: '#ffcc00',
-            fill: false
-          },
+          }
         ]
       },
       options: {

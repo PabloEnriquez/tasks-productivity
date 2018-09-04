@@ -52,7 +52,8 @@ export class TasksService {
             content: task.content,
             duration: { min: task.duration.min, sec: task.duration.sec },
             completion: { min: task.completion.min, sec: task.completion.sec },
-            isCompleted: task.isCompleted
+            isCompleted: task.isCompleted,
+            date: task.date
           };
         }),
         maxTasks: taskData.maxTasks

@@ -49,9 +49,9 @@ export class TaskExecuteComponent {
         time = new Date( msLeft );
         hours = time.getUTCHours();
         mins = time.getUTCMinutes();
-        (<HTMLInputElement>document.getElementById('dur_min')).value = (hours ? hours + ':' + twoDigits( mins ) : mins);
-        (<HTMLInputElement>document.getElementById('dur_sec')).value = '' + twoDigits( time.getUTCSeconds() ) ;
-        this.task.duration.min = mins;
+        (<HTMLInputElement>document.getElementById('dur_min')).value = (hours ? hours + ' : '
+         + twoDigits( mins ) : mins) + ' : ' + twoDigits( time.getUTCSeconds() );
+        this.task.duration.min = mins + (hours * 60);
         this.task.duration.sec = time.getUTCSeconds();
 
         this.compSec++;

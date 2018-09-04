@@ -2,13 +2,11 @@
 <div mat-dialog-content>
   <p class="mat-body-1">Descripción: {{ task.content }}</p>
   <mat-divider></mat-divider>
-  <p class="mat-body-1">Duración =>
+  <p class="mat-body-1">Duración => {{ task.duration.min }}:{{ task.duration.sec }}
   </p>
   <div class="containerDur">
-    <span class="a"><input class="inputA" matInput type="number" id="dur_min" [ngModel]="task?.duration.min" disabled #dur_min="ngModel"></span>
-    <span class="a">:</span>
-    <span class="a"><input class="inputB" matInput type="number" id="dur_sec" [ngModel]="task?.duration.sec" disabled #dur_sec="ngModel"></span>
-</div>
+    <input class="inputA" matInput type="text" id="dur_min" [ngModel]="task?.duration.min" disabled>
+  </div>
   <mat-divider></mat-divider>
 </div>
 <div mat-dialog-actions>

@@ -12,7 +12,7 @@ const taskSchema = mongoose.Schema({
     sec: { type: Number, required: true, default: 0 }
   },
   isCompleted: { type: Boolean, required: true, default: false },
-  date: { type: Date, required: false, default: Date.now }
+  date: { type: Date, required: false }
 });
 
 module.exports = mongoose.model('Task', taskSchema);
