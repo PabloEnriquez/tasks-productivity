@@ -6,7 +6,7 @@
     <span [hidden]="isCounting">{{ task.duration.min }}:{{ task.duration.sec }}</span>
   </p>
   <div class="containerDur" [hidden]="!isCounting">
-    <input class="inputA" matInput type="text" id="dur_min" [ngModel]="task?.duration.min" disabled>
+    <input class="inputA" matInput type="text" id="dur_min" disabled>
   </div>
   <mat-divider></mat-divider>
 </div>

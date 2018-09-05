@@ -50,16 +50,17 @@ export class TaskExecuteComponent {
         time = new Date( msLeft );
         hours = time.getUTCHours();
         mins = time.getUTCMinutes();
-        (<HTMLInputElement>document.getElementById('dur_min')).value = (hours ? hours + ' : '
-         + twoDigits( mins ) : mins) + ' : ' + twoDigits( time.getUTCSeconds() );
-        this.task.duration.min = mins + (hours * 60);
-        this.task.duration.sec = time.getUTCSeconds();
 
         this.compSec++;
         if (this.compSec >= 60) {
           this.compSec = 0;
           this.compMin++;
         }
+
+        (<HTMLInputElement>document.getElementById('dur_min')).value = (hours ? hours + ' : '
+         + twoDigits( mins ) : mins) + ' : ' + twoDigits( time.getUTCSeconds() );
+        this.task.duration.min = mins + (hours * 60);
+        this.task.duration.sec = time.getUTCSeconds();
 
         this.timeout = setTimeout(() => { this.updateTimer(); } , time.getUTCMilliseconds() + 500);
     }
@@ -88,6 +89,8 @@ export class TaskExecuteComponent {
   }
 
   pauseCount() {
+    console.log('min:' + this.compMin + ' sec: ' + this.compSec);
+
     this.isCompleteDisabled = false;
     clearTimeout(this.timeout);
     this.timerIsOn = 0;

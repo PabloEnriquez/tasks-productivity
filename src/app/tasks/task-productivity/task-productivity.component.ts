@@ -1,5 +1,5 @@
 import { TasksService } from './../tasks.service';
-import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Task } from '../task.model';
 import { Chart } from 'chart.js';
@@ -35,7 +35,7 @@ export class TaskProductivityComponent implements OnInit, OnDestroy {
         this.tasksCompMin.push(task.completion.min);
 
         const dateAux = new Date('' + task.date + '');
-        this.taskDates.push(dateAux.toLocaleTimeString('es', { year: 'numeric', month: 'short', day: 'numeric' }));
+        this.taskDates.push(dateAux.toLocaleTimeString('es', { year: 'numeric', month: 'short', day: 'numeric', weekday: 'long' }));
       });
       this.createChart();
     });
@@ -55,7 +55,7 @@ export class TaskProductivityComponent implements OnInit, OnDestroy {
           },
           {
             data: this.tasksCompMin,
-            label: 'Completado Minutos',
+            label: 'Completada Minutos',
             backgroundColor: '#3F51B5',
             fill: false
           }
