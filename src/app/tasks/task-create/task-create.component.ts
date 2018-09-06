@@ -18,6 +18,8 @@ export class TaskCreateComponent implements OnInit {
   private taskId: string;
   task: Task;
   isLoading = false;
+  maxMin = 120;
+  maxMessage = false;
 
   constructor(public tasksService: TasksService, public route: ActivatedRoute) {}
 
@@ -43,12 +45,17 @@ export class TaskCreateComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    this.isLoading = true;
-    if (this.mode === 'create') {
-      this.tasksService.addTask(form.value.title, form.value.content, form.value.dur_min, form.value.dur_sec);
+    if ((form.value.dur_min + (form.value.dur_sec / 60)) > 120) {
+      form.resetForm();
+      this.maxMessage = true;
     } else {
-      this.tasksService.updateTask(this.taskId, form.value.title, form.value.content, form.value.dur_min, form.value.dur_sec);
+      this.isLoading = true;
+      if (this.mode === 'create') {
+        this.tasksService.addTask(form.value.title, form.value.content, form.value.dur_min, form.value.dur_sec);
+      } else {
+        this.tasksService.updateTask(this.taskId, form.value.title, form.value.content, form.value.dur_min, form.value.dur_sec);
+      }
+      form.resetForm();
     }
-    form.resetForm();
   }
 }
