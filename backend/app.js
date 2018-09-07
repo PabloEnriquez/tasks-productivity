@@ -120,7 +120,7 @@ app.get("/api/tasks/productivity", (req, res, next) => {
     date: {
       $gte: new Date((new Date().getTime() - (15 * 24 * 60 * 60 * 1000)))
     }
-  }).sort({ date: 1 });
+  }).sort({ date: -1 });
   let fetchedTasks;
 
   if (pageSize && currentPage) {

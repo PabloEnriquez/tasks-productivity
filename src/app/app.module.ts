@@ -1,6 +1,6 @@
 import { ErrorInterceptor } from './error-interceptor';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -25,6 +25,10 @@ import { ErrorComponent } from './error/error.component';
 import { TaskListCompletedComponent } from './tasks/task-list-completed/task-list-completed.component';
 import { TaskExecuteComponent } from './tasks/task-execute/task-execute.component';
 import { TaskProductivityComponent } from './tasks/task-productivity/task-productivity.component';
+
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es-419';
+registerLocaleData(localeEs);
 
 @NgModule({
   declarations: [
@@ -55,9 +59,12 @@ import { TaskProductivityComponent } from './tasks/task-productivity/task-produc
     SortablejsModule.forRoot({ animation: 150 })
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: LOCALE_ID, useValue: 'es-419' }
   ],
   bootstrap: [AppComponent],
   entryComponents: [ErrorComponent, TaskExecuteComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+}

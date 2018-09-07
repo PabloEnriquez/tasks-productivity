@@ -20,6 +20,7 @@ export class TaskCreateComponent implements OnInit {
   isLoading = false;
   maxMin = 120;
   maxMessage = false;
+  secMessage = false;
 
   constructor(public tasksService: TasksService, public route: ActivatedRoute) {}
 
@@ -48,6 +49,11 @@ export class TaskCreateComponent implements OnInit {
     if ((form.value.dur_min + (form.value.dur_sec / 60)) > 120) {
       form.resetForm();
       this.maxMessage = true;
+      this.secMessage = false;
+    } else if (form.value.dur_sec > 60) {
+      form.resetForm();
+      this.secMessage = true;
+      this.maxMessage = false;
     } else {
       this.isLoading = true;
       if (this.mode === 'create') {

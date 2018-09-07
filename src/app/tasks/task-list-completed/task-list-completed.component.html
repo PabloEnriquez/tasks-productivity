@@ -11,6 +11,8 @@
     Duración => {{ task.duration.min }} minutos : {{ task.duration.sec }} segundos
     <mat-divider></mat-divider>
     Completada en => {{ task.completion.min }} minutos : {{ task.completion.sec }} segundos
+    <mat-divider></mat-divider>
+    Fecha: {{ task.date | date: 'full' : 'es-419' }}
     <mat-action-row>
       <button mat-button color="warn" (click)="onDelete(task.id)">ELIMINAR</button>
     </mat-action-row>
