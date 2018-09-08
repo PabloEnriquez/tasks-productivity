@@ -113,6 +113,32 @@ export class TasksService {
     });
   }
 
+  getRandomInt(min, max) {
+    // min = Math.ceil(min);
+    // max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  addPrefillTasks() {
+    for (let index = 1; index < 51; index++) {
+      let durMin, durSec, compMin, compSec, lastWeek;
+      durMin = this.getRandomInt(1, 120);
+      durSec = this.getRandomInt(1, 60);
+      compMin = this.getRandomInt((durMin * .8), durMin + 1);
+      compSec = this.getRandomInt((durSec * .8), durSec + 1);
+      lastWeek = new Date((new Date().getTime() - (8 * 24 * 60 * 60 * 1000))).getTime();
+      const task: Task = {
+        id: null, title: 'Tarea ' + index, content: 'Actividades ' + index,
+        duration: { min: durMin, sec: durSec }, completion: { min: compMin, sec: compSec },
+        date: new Date( this.getRandomInt(lastWeek, new Date().getTime()) )
+      };
+      this.http.post<{message: string, taskId: string}>(BACKEND_URL + 'prefill', task)
+      .subscribe((responseData) => {
+      this.router.navigate(['/']);
+    });
+    }
+  }
+
   updateTask(id: string, title: string, content: string, min: number, sec: number ) {
     const task: Task = { id: id, title: title, content: content, duration: { min: min, sec: sec } };
     this.http.put(BACKEND_URL + id, task)

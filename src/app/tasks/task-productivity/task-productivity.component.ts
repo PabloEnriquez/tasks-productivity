@@ -34,7 +34,7 @@ export class TaskProductivityComponent implements OnInit, OnDestroy {
         this.tasksDurMin.push(task.duration.min);
         this.tasksCompMin.push(task.completion.min);
 
-        const dateAux = new Date('' + task.date + '');
+        const dateAux = new Date(task.date);
         this.taskDates.push(dateAux.toLocaleTimeString('es', { year: 'numeric', month: 'short', day: 'numeric', weekday: 'long' }));
       });
       this.createChart();

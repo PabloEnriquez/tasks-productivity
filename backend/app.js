@@ -39,7 +39,30 @@ app.post("/api/tasks", (req, res, next) => {
   })
   .catch(error => {
     res.status(500).json({
-      message: 'Creating a post failed',
+      message: 'Creating a task failed',
+      error: error
+    });
+  });
+});
+
+app.post("/api/tasks/prefill", (req, res, next) => {
+  const task = new Task({
+    title: req.body.title,
+    content: req.body.content,
+    duration: { min: req.body.duration.min, sec: req.body.duration.sec },
+    completion: { min: req.body.completion.min, sec: req.body.completion.sec },
+    isCompleted: true,
+    date: req.body.date
+  });
+  task.save().then(createdTask => {
+    res.status(201).json({
+      message: 'Prefill Task added successfully',
+      taskId: createdTask._id
+    });
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Creating a task failed',
       error: error
     });
   });
@@ -88,7 +111,7 @@ app.get("/api/tasks/completed", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
   const taskQuery = Task.find({ isCompleted: true })
-  .sort({ "duration.min": 1 });
+  .sort({ "completion.min": 1 });
   let fetchedTasks;
 
   if (pageSize && currentPage) {
@@ -118,7 +141,7 @@ app.get("/api/tasks/productivity", (req, res, next) => {
   const taskQuery = Task.find({
     isCompleted: true,
     date: {
-      $gte: new Date((new Date().getTime() - (15 * 24 * 60 * 60 * 1000)))
+      $gte: new Date((new Date().getTime() - (8 * 24 * 60 * 60 * 1000)))
     }
   }).sort({ date: -1 });
   let fetchedTasks;
