@@ -114,8 +114,8 @@ export class TasksService {
   }
 
   getRandomInt(min, max) {
-    // min = Math.ceil(min);
-    // max = Math.floor(max);
+    min = Math.ceil(min);
+    max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
@@ -134,7 +134,7 @@ export class TasksService {
       };
       this.http.post<{message: string, taskId: string}>(BACKEND_URL + 'prefill', task)
       .subscribe((responseData) => {
-      this.router.navigate(['/']);
+      this.router.navigate(['/completed']);
     });
     }
   }

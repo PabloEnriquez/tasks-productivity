@@ -87,8 +87,6 @@ export class TaskExecuteComponent {
   }
 
   pauseCount() {
-    console.log('min:' + this.compMin + ' sec: ' + this.compSec);
-
     this.isCompleteDisabled = false;
     clearTimeout(this.timeout);
     this.timerIsOn = 0;
