@@ -111,7 +111,7 @@ app.get("/api/tasks/completed", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
   const taskQuery = Task.find({ isCompleted: true })
-  .sort({ "completion.min": 1 });
+  .sort({ date: -1 });
   let fetchedTasks;
 
   if (pageSize && currentPage) {

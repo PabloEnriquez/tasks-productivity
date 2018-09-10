@@ -1,7 +1,7 @@
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 <a mat-button color="primary" *ngIf="tasks.length > 0 && !isLoading" (click)="openDialog()">COMENZAR TAREA EN CURSO</a>
-<mat-divider></mat-divider>
+<mat-divider *ngIf="tasks.length > 0 && !isLoading"></mat-divider>
 <mat-accordion multi="true" *ngIf="tasks.length > 0 && !isLoading" [sortablejs]="tasks">
   <mat-expansion-panel *ngFor="let task of tasks">
     <mat-expansion-panel-header>
