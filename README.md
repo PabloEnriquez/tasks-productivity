@@ -11,7 +11,7 @@ Live application: http://taskproductivity-env.mewgvynzy4.us-east-2.elasticbeanst
 * In the My Tasks page the tasks "to do" are shown. There is a button to start working on the current task (first on the list). The user can modify the list; re-order the tasks.
 * When the user starts working on the current task, the countdown (considering the task duration which the user set) can be started; a timer will show the progress. The timer can be set to play, pause, stop and restart. When the task is completed it will be marked as completed and the user will be taken to the completed tasks page.
 * In the My Completed Tasks page, the user can see a history of the completed tasks. 
-  > If there database is empty, an option to pre-fill the application with 50 tasks will appear in the completed tasks page.
+  > If the database is empty, an option to pre-fill the application with 50 tasks will appear in the completed tasks page.
 * In the same page, there is an option to see the productivity of the tasks completed during the past week. There a graph will compare duration to completion of the tasks.
 
 ## Development server
