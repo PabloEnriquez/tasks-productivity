@@ -3,7 +3,7 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.4.
 
 Task productivity and management application using MEAN stack. Deployed using AWS Elastic Beanstalk.
-Application: http://taskproductivity-env.mewgvynzy4.us-east-2.elasticbeanstalk.com/
+Live application: http://taskproductivity-env.mewgvynzy4.us-east-2.elasticbeanstalk.com/
 
 ## Instructions
 
