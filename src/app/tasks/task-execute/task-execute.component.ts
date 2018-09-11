@@ -20,6 +20,8 @@ export class TaskExecuteComponent {
   compSec = 0;
   isCompleteDisabled = true;
   isCounting = false;
+  isPauseDisabled = false;
+  isPlayDisabled = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public task: Task, public dialogRef: MatDialogRef<TaskExecuteComponent>) {
     this.initialMin = this.task.duration.min;
@@ -67,6 +69,8 @@ export class TaskExecuteComponent {
 
   restartCountdown() {
     this.isCompleteDisabled = true;
+    this.isPauseDisabled = false;
+    this.isPlayDisabled = false;
     this.isCounting = true;
     this.endTime = (+new Date) + 1000 * (60 * this.initialMin + this.initialSec) + 500;
     if (!this.timerIsOn || !this.timerIsOnStop) {
@@ -82,6 +86,7 @@ export class TaskExecuteComponent {
     this.endTime = (+new Date) + 1000 * (60 * this.task.duration.min + this.task.duration.sec) + 500;
     if (!this.timerIsOn) {
       this.timerIsOn = 1;
+      this.timerIsOnStop = 1;
       this.updateTimer();
     }
   }
@@ -94,6 +99,8 @@ export class TaskExecuteComponent {
 
   stopCount() {
     this.isCompleteDisabled = false;
+    this.isPauseDisabled = true;
+    this.isPlayDisabled = true;
     clearTimeout(this.timeout);
     this.timerIsOnStop = 0;
   }

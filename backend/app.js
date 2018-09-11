@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const Task = require('./models/task');
 
@@ -17,13 +18,14 @@ mongoose.connect("mongodb+srv://pablo:" + process.env.MONGO_ATLAS_PW + "@cluster
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use("/", express.static(path.join(__dirname, "angular")));
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+//   next();
+// });
 
 app.post("/api/tasks", (req, res, next) => {
   const task = new Task({
@@ -221,6 +223,10 @@ app.delete("/api/tasks/:id", (req, res, next) => {
       error: error
     });
   });
+});
+
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "angular", "index.html"));
 });
 
 module.exports = app;

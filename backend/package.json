@@ -1,0 +1,11 @@
+{
+  "name": "prueba-abx",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "chart.js": "^2.7.2",
+    "express": "^4.16.3",
+    "mongoose": "^5.2.9"
+  }
+}
