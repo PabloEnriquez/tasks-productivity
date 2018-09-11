@@ -2,6 +2,17 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.4.
 
+Task productivity and management application using MEAN stack. Deployed using AWS Elastic Beanstalk.
+Application: http://taskproductivity-env.mewgvynzy4.us-east-2.elasticbeanstalk.com/
+
+## Instructions
+
+* The user can create new Tasks; providing a title, content/description and duration of the tasks in minutes and seconds (which cannot be more than 2 hours: 120 minutes).
+* In the My Tasks page the tasks "to do" are shown. There is a button to start working on the current task (first on the list). The user can modify the list; re-order the tasks.
+* When the user starts working on the current task, the countdown (considering the task duration which the user set) can be started; a timer will show the progress. The timer can be set to play, pause, stop and restart. When the task is completed it will be marked as completed and the user will be taken to the completed tasks page.
+* In the My Completed Tasks page, the user can see a history of the completed tasks. 
+* In the same page, there is an option to see the productivity of the tasks completed during the past week. There a graph will compare duration to completion of the tasks.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
