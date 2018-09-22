@@ -19,8 +19,9 @@ export class TaskCreateComponent implements OnInit {
   task: Task;
   isLoading = false;
   maxMin = 120;
-  maxMessage = false;
-  secMessage = false;
+  showMaxHourErrorMessage = false;
+  showSecErrorMessage = false;
+  showCeroMessage = false;
 
   constructor(public tasksService: TasksService, public route: ActivatedRoute) {}
 
@@ -48,12 +49,19 @@ export class TaskCreateComponent implements OnInit {
     }
     if ((form.value.dur_min + (form.value.dur_sec / 60)) > 120) {
       form.resetForm();
-      this.maxMessage = true;
-      this.secMessage = false;
+      this.showMaxHourErrorMessage = true;
+      this.showCeroMessage = false;
+      this.showSecErrorMessage = false;
     } else if (form.value.dur_sec > 60) {
       form.resetForm();
-      this.secMessage = true;
-      this.maxMessage = false;
+      this.showSecErrorMessage = true;
+      this.showMaxHourErrorMessage = false;
+      this.showCeroMessage = false;
+    } else if ( form.value.dur_min <= 0 && form.value.dur_sec <= 0 ) {
+      form.resetForm();
+      this.showCeroMessage = true;
+      this.showSecErrorMessage = false;
+      this.showMaxHourErrorMessage = false;
     } else {
       this.isLoading = true;
       if (this.mode === 'create') {

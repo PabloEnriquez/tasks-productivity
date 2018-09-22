@@ -12,13 +12,14 @@
     <mat-form-field>
       <input matInput type="number" name="dur_min" [ngModel]="task?.duration.min" required max="120" placeholder="Duración - minutos" #dur_min="ngModel">
       <mat-error *ngIf="dur_min.invalid">Por favor ingrese duración - minutos</mat-error>
-      <mat-hint class="maxNum" *ngIf="maxMessage">La duración no puede superar las dos horas.</mat-hint>
+      <mat-hint class="maxNum" *ngIf="showMaxHourErrorMessage">La duración no puede superar las dos horas.</mat-hint>
+      <mat-hint class="maxNum" *ngIf="showCeroMessage">No puede haber una tarea con duración 0 en minutos y segundos</mat-hint>
     </mat-form-field>
     <mat-form-field>
       <input matInput type="number" name="dur_sec" [ngModel]="task?.duration.sec" required max="60" placeholder="Duración - segundos" #dur_sec="ngModel">
       <mat-error *ngIf="dur_sec.invalid">Por favor ingrese duración - segundos</mat-error>
-      <mat-hint class="maxNum" *ngIf="maxMessage">La duración no puede superar las dos horas.</mat-hint>
-      <mat-hint class="maxNum" *ngIf="secMessage"> La duración en segundos no puede superar 60.</mat-hint>
+      <mat-hint class="maxNum" *ngIf="showSecErrorMessage">La duración en segundos no puede superar 60.</mat-hint>
+      <mat-hint class="maxNum" *ngIf="showCeroMessage">No puede haber una tarea con duración 0 en minutos y segundos</mat-hint>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit" [disabled]="!taskForm.form.valid">Agregar tarea</button>
   </form>
